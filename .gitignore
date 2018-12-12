@@ -1,0 +1,6 @@
+vendor/*
+storage/*
+composer.lock/*
+.idea/*
+
+

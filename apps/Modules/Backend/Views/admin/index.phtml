@@ -1,0 +1,120 @@
+
+
+<div class="page-content-wrapper">
+    <!-- BEGIN CONTENT BODY -->
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+        <!-- BEGIN PAGE BAR -->
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="/admin/index/index">首页</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="/admin/admin/index">管理员列表</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+            </ul>
+        </div>
+        <!-- END PAGE BAR -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-shopping-cart"></i>管理员列表
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-toolbar">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="/admin/admin/edit?action=add" class="btn btn-circle green"> 添加管理员
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sample_1_wrapper" class="dataTables_wrapper no-footer">
+                            <form action="/admin/admin/index" method="post">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-1">
+                                        <div id="sample_1_filter" class="dataTables_filter">
+                                            <input name="username" value="<?= $username?>" placeholder="请输入管理员名称" class="form-control input-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-0">
+                                        <div class="margin-bottom-5">
+                                            <button class="btn btn-sm btn blue filter-submit margin-bottom">
+                                                <i class="fa fa-search"></i> 搜索
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-container">
+                                    <table class="table table-striped table-bordered table-hover table-checkable" id="table">
+                                        <thead>
+                                        <tr role="row" class="heading">
+                                            <th width="5%"> ID</th>
+                                            <th width="15%"> 管理员名称</th>
+                                            <th width="10%"> 手机号</th>
+                                            <th width="10%"> 状态</th>
+                                            <th width="10%"> 最后登录时间</th>
+                                            <th width="10%"> 最后登录ip</th>
+                                            <th width="10%"> 创建时间</th>
+                                            <th width="10%"> 操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($page->items as $list): ?>
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1"><?= $list->id ?></td>
+                                                <td><?= $list->username ?></td>
+                                                <td><?= $list->mobile ?></td>
+                                                <td>
+                                                    <?php  if ($list->status == 1) :?>
+                                                        <span class="label label-sm label-danger">启用</span>
+                                                    <?php else:?>
+                                                        <span class="label label-sm label-info">禁用</span>
+                                                    <?php endif;?>
+                                                </td>
+                                                <td><?= $list->last_login_time ? date('Y-m-d H:i:s', $list->last_login_time) : ''?></td>
+                                                <td><?= $list->last_login_ip ?></td>
+                                                <td><?= $list->created_at ? date('Y-m-d H:i:s', $list->created_at) : '' ?></td>
+                                                <td>
+                                                    <a href="/admin/admin/edit?action=edit&id=<?= $list->id ?>" class="btn btn-circle btn-icon-only red" title="编辑">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <a href="/admin/admin/editPassword?id=<?= $list->id ?>" class="btn btn-circle btn-icon-only yellow" title="修改密码">
+                                                        <i class="fa fa-search"></i>
+                                                    </a>
+                                                    <a url="/admin/admin/del?id=<?= $list->id ?>" class="btn btn-circle btn-icon-only purple del" title="删除">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <?php if($page->total_pages > 1):?>
+                                        <div class="col-md-7 col-sm-7">
+                                            <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                                                {{ page.paginator_render }}
+                                            </div>
+                                        </div>
+                                    <?php endif;?>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+    </div>
+    <!-- END CONTENT BODY -->
+</div>
