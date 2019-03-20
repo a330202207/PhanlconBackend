@@ -1,3 +1,6 @@
+# Phalcon 版本
+3.4.3
+
 # 安装步骤
 > * composer update
 > * 创建`storage`目录，并设置777权限
