@@ -1,5 +1,5 @@
-# Phalcon 版本
-3.4.3
+# 分支名即版本号
+
 
 # 安装步骤
 > * composer update
