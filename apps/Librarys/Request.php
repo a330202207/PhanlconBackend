@@ -26,12 +26,12 @@ class Request
      * @param string $type 数据类型
      * @param bool $original 是否返回初始值
      * @param bool $verify 是否在请求时验证SSL证书行为
-     * @param bool $decode 是否json转义
+     * @param bool $decode 是否转义
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface|string
      * @throws \Exception
      * @version: 1.0
      */
-    public static function Go($uri, $data = null, $method = 'POST', $type = 'json', $headers = [], $original = false, $verify = false, $decode = true)
+    public static function Go($uri, $data = null, $method = 'POST', $type = 'json', $headers = [], $decode = true, $original = false, $verify = false)
     {
         $methodList = ['GET', 'POST'];
         if (empty($method) || !in_array(strtoupper($method), $methodList)) {
@@ -51,10 +51,16 @@ class Request
                 $options[$type] = $data;
             }
             $response = $client->request($method, $uri, $options);
+
             if (true === $original) {
                 return $response;
             }
             $contents = $response->getBody()->getContents();
+
+            if ($decode == false) {
+                return $contents;
+            }
+
             if (!empty($contents) && is_string($contents)) {
                 //如果数据为json并解析成功
                 if (is_json($contents)) {

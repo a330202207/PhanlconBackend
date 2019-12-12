@@ -1,6 +1,6 @@
 <?php
 /**
- * @purpose: 应用程序
+ * @purpose: 运行应用
  * @author: NedRen<ned@pproject.co>
  * @date: 2018/10/20
  * @version: 1.0
@@ -56,7 +56,7 @@ class Bootstrap
         /**
          * 获取配置
          */
-        $config = array_merge(include BASE_PATH . "/config/config_". RUNTIME . ".php", include BASE_PATH . "/config/modules.php");
+        $config = array_merge(include BASE_PATH . "/config/config_" . RUNTIME . ".php", include BASE_PATH . "/config/modules.php");
 
         $this->config = $config;
 
@@ -130,50 +130,34 @@ class Bootstrap
      */
     public function run()
     {
-        try{
+        try {
+
             return $this->getOutput();
-        }catch(\Exception $e){
-
-            echo '<pre>' . $e->getCode() . '</pre>';
-            echo '<pre>' . $e->getMessage() . '</pre>';
-            echo '<pre>' . $e->getFile() . '</pre>';
-            echo '<pre>' . $e->getMessage() . '</pre>';
-            echo '<pre>' . nl2br( $e->getTraceAsString()) . '</pre>';
-
-            die;
-
-            if (RUNTIME != 'prd' && RUNTIME != 'test') {
-                echo '<pre>' . $e->getCode() . '</pre>';
-                echo '<pre>' . $e->getMessage() . '</pre>';
-                echo '<pre>' . $e->getFile() . '</pre>';
-                echo '<pre>' . $e->getMessage() . '</pre>';
-                echo '<pre>' . nl2br( $e->getTraceAsString()) . '</pre>';
+        } catch (\Throwable $e) {
+            if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $client_ip = $_SERVER['HTTP_CLIENT_IP'];
             } else {
-                if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-                    $client_ip = $_SERVER['HTTP_CLIENT_IP'];
-                } else {
-                    $client_ip = "0";
-                }
-
-                if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                    $x_client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                } else {
-                    $x_client_ip = "0";
-                }
-
-                $log = [
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                    'code' => $e->getCode(),
-                    'msg' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString(),
-                    'userAgent' => $_SERVER['HTTP_USER_AGENT'],
-                    'userIp' => $_SERVER['REMOTE_ADDR'],
-                    'clientIp' => $client_ip,
-                    'xClintIp' => $x_client_ip,
-                ];
-                debug($log, 'ERROR');
+                $client_ip = "0";
             }
+
+            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $x_client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            } else {
+                $x_client_ip = "0";
+            }
+
+            $log = [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'code' => $e->getCode(),
+                'msg' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'userAgent' => $_SERVER['HTTP_USER_AGENT'],
+                'userIp' => $_SERVER['REMOTE_ADDR'],
+                'clientIp' => $client_ip,
+                'xClintIp' => $x_client_ip,
+            ];
+            debug($log, 'ERROR');
         }
     }
 

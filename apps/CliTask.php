@@ -90,12 +90,14 @@ class CliTask
             'Apps\\Modules\\' . $this->module . '\\Tasks' => $moduleDir . 'Tasks/',
             'Apps\\Modules\\' . $this->module . '\\Models' => $moduleDir . 'Models/'
         ], true);
-        $loader->register();
+
 
         $loader->registerFiles([
             APP_PATH . '/Helpers/framework.php', //框架函数库
             APP_PATH . '/Helpers/functions.php', //核心函数库
         ]);
+
+        $loader->register();
 
         // 使用CLI工厂类作为默认的服务容器
         $this->di = new CliDi();
@@ -184,12 +186,13 @@ class CliTask
         $this->di->set('db', function () {
             $config = $this->getConfig();
             $params = [
-                'host' => $config['database']['dbMaster']['host'],
-                'port' => $config['database']['dbMaster']['port'],
-                'username' => $config['database']['dbMaster']['username'],
-                'password' => $config['database']['dbMaster']['password'],
-                'dbname' => $config['database']['dbMaster']['dbname'],
-                'charset' => $config['database']['dbMaster']['charset']
+                'host' => $config['database']['host'],
+                'port' => $config['database']['port'],
+                'username' => $config['database']['username'],
+                'password' => $config['database']['password'],
+                'dbname' => $config['database']['dbname'],
+                'charset' => $config['database']['charset'],
+                'prefix' => $config['database']['prefix'],
             ];
 
             $connection = new Mysql($params);
