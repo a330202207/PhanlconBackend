@@ -14,19 +14,19 @@ use Apps\Modules\Api\Services\IndexService;
 
 class IndexController extends BaseController
 {
-
     /**
      * @notes: 获取首页信息
      * @author: NedRen<ned@pproject.co>
      * @date: 2018/10/24
      * @return mixed
+     * @throws \Exception
      * @version: 1.0
      */
     public function indexAction()
     {
-        $data = IndexService::getIndexInfo();
+        $string = $this->get('string', 'Hello,World!');
+        $data = IndexService::getIndexInfo($string);
         return $this->jsonApi->return(ErrorCode::SUCCESS, $data);
     }
-
 
 }
